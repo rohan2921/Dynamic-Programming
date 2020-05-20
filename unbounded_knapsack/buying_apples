@@ -1,0 +1,80 @@
+Q==> Harish went to a supermarket to buy exactly ‘k’ kilograms apples for his ‘n’ friends.
+The supermarket was really weird. The pricing of items was very different. He went to the
+Apples section and enquired about the prices. The salesman gave him a card in which he found
+that the prices of apples were not per kg. The apples were packed into covers, each containing
+‘x’ kg of apples, x > 0 and ‘x’ is an integer. An ‘x’ kg packet would be valued at ‘y’ rupees.
+So, the placard contained a table with an entry ‘y’ denoting the price of an ‘x’ kg packet.
+If ‘y’ is -1 it means that the corresponding packet is not available. Now as apples are available
+only in packets, he decides to buy atmost ‘n’ packets for his ‘n’ friends i.e he will not buy more
+than n packets of apples.
+
+Harish likes his friends a lot and so he does not want to disappoint his friends.
+So now, he will tell you how many friends he has and you have to tell him the minimum
+amount of money he has to spend for his friends.
+
+
+Practice : Spoj
+
+
+sol==>
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int main() {
+	
+	int t;
+	cin>>t;
+	while(t--){
+		int n,C;
+		cin>>C>>n;
+		C=n;
+		int c_neg1=0;
+		int c[n];
+		for(int i=0;i<n;i++) {
+			cin>>c[i];
+			if(c[i]==-1) c_neg1+=1;
+		}
+		if(n==c_neg1){
+		    cout<<"-1";
+		    continue;
+		} 
+		int n1=n-c_neg1;
+		int w[n1],v[n1];
+		
+		int j=0;
+		for(int i=0;i<n;i++){
+			if(c[i]!=-1){
+				w[j]=i+1;
+				v[j++]=c[i];
+			}
+		}
+		long long int dp[n1+1][C+1];
+		
+	    memset(dp,0,sizeof(dp));
+	    for(int i=0;i<=n1;i++) dp[i][0]=0,dpW[i][0]=0;
+	    for(int j=1;j<=C;j++) dp[0][j]=INT_MAX-1,dpW[0][j]=INT_MAX-1;
+	    for(int i=1;i<=C;i++){
+	        if(i%w[0]==0){
+	             dp[1][i]= (i/w[0])* v[0];
+	             
+	        }else{ dp[1][i]=INT_MAX-1;}
+	    }
+	    for(int i=2;i<=n1;i++){
+	        for(int j=1;j<=C;j++){
+	            if(w[i-1]<=j){
+	                dp[i][j]=min(v[i-1]+dp[i][j-w[i-1]],dp[i-1][j]);
+	                
+	            }else 
+	                dp[i][j]=dp[i-1][j];
+	        }
+	    }
+	   
+	    if(dp[n1][C]==INT_MAX-1){
+	     cout<<"-1\n";   
+	    } 
+	    else  cout<<dp[n1][C]<<"\n";
+	    
+	}
+ 
+	return 0;
+} 

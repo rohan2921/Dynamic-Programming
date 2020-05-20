@@ -1,0 +1,41 @@
+Q==> Given two strings X and Y. The task is to find the length of the longest common substring.
+
+
+Practice : Gfg 
+
+Sol==> 
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    
+    int t;
+    cin>>t;
+    while(t--){
+       
+       
+        int n,m;
+        string x;
+        string y;
+        cin>>n>>m;
+        cin>>x;
+        cin>>y;
+         int arr[n+1][m+1];
+         for(int i=0;i<=n;i++) arr[i][0]=0;
+         for(int j=0;j<=m;j++) arr[0][j]=0;
+        int max=0;
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=m;j++){
+                if(x[i-1]==y[j-1]){
+                    arr[i][j]=arr[i-1][j-1]+1;
+                    if(arr[i][j]>max) max=arr[i][j];
+                }else arr[i][j]=0;
+            }
+        }
+        cout<<max<<"\n";
+        
+    }
+	
+	return 0;
+}
