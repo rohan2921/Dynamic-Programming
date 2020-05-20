@@ -2,6 +2,8 @@ Q==> You are given a list of non-negative integers, a1, a2, ..., an, and a targe
 For each integer, you should choose one from + and - as its new symbol.
 Find out how many ways to assign symbols to make sum of integers equal to target S.
 
+Practice : LeetCode
+
 Sol==> (Only function )
 
 int findTargetSumWays(vector<int>& nums, int S) {

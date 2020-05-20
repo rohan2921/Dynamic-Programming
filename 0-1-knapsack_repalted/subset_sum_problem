@@ -3,6 +3,8 @@ Q==> Given a set of numbers, check whether it can be partitioned into two subset
 
  Sol==> 
 
+ Practice : GeeksforGeeks
+
  #include <bits/stdc++.h>
 using namespace std;
 int dp[101][100001];
