@@ -1,0 +1,35 @@
+Q==> Given two strings ‘str1’ and ‘str2’ of size m and n respectively.
+The task is to remove/delete and insert minimum number of characters from/in str1
+so as to transform it into str2. It could be possible that the same character needs
+to be removed/deleted from one point of str1 and inserted to some another point.
+
+
+Practice: 
+
+Sol == >
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	int t;
+    cin>>t;
+    while(t--){
+        string s1,s2;
+        int n,m;
+        cin>>n>>m;
+        cin>>s1>>s2;
+        int dp[n+1][m+1];
+        memset(dp,0,sizeof(dp));
+        
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=m;j++){
+                if(s1[i-1]==s2[j-1]) dp[i][j]=1+dp[i-1][j-1];
+                else dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
+            }
+        }
+       
+        cout<<(n+m)-2*dp[n][m]<<"\n";
+    }
+	return 0;
+}
