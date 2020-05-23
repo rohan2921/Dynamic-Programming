@@ -1,0 +1,41 @@
+Q==> Given a sequence A of size N, find the length of the longest
+increasing subsequence from a given sequence .
+The longest increasing subsequence means to find a subsequence of a given
+sequence in which the subsequence's elements are in sorted order, lowest to highest,
+and in which the subsequence is as long as possible. This subsequence is not necessarily contiguous, or unique. 
+
+Practice:  https://www.geeksforgeeks.org/longest-increasing-subsequence-dp-3/
+
+
+Sol ==> 
+
+#include <iostream>
+using namespace std;
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--){
+	    int n;
+	    cin>>n;
+	    int arr[n+1];
+	    int lis[n+1];
+	    for(int i=0;i<n;i++){
+	        cin>>arr[i];
+	        lis[i]=1;
+	    }
+	    int max=1;
+	    for(int i=1;i<n;i++){
+	        for(int j=0;j<i;j++){
+	            if(arr[i]>arr[j] && lis[j]+1 > lis[i]){
+	                lis[i]=lis[j]+1;
+	                if(lis[i]>max){
+	                    max=lis[i];
+	                }
+	            }
+	        }
+	    }
+	    cout<<max<<endl;
+	}
+	return 0;
+}
