@@ -1,0 +1,39 @@
+Q==> Given an array of integer numbers, we need to sort
+this array in a minimum number of steps where in one step we
+can insert any array element from its position to any other position.
+
+
+Practice : https://practice.geeksforgeeks.org/problems/minimum-insertions-to-sort-an-array/0/
+
+
+sol==>
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--){
+	    int n;
+	    cin>>n;
+	    int arr[n+1];
+	    int dp[n+1];
+	    for(int i=0;i<n;i++) cin>>arr[i],dp[i]=1;
+	    int mx=1;
+	    for(int i=n-2;i>=0;i--){
+	        int m=-1;
+	        for(int j=i+1;j<n;j++){
+	            if(arr[i]<=arr[j] ){
+	               if(dp[j]>m) m=dp[j];
+	            }
+	        }
+	        if(m!=-1) dp[i]+=m;
+	        if(dp[i]>mx) mx=dp[i];
+	    }
+	    
+	   
+	    cout<<n-mx<<"\n";
+	}
+	return 0;
+}
