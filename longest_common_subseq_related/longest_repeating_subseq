@@ -1,0 +1,45 @@
+Q==> GGiven a string str, find length of the longest repeating subseequence
+such that the two subsequence don’t have same string character at same position,
+i.e., any i’th character in the two subsequences shouldn’t have the same index
+in the original string.
+
+Practice : https://practice.geeksforgeeks.org/problems/longest-repeating-subsequence/0
+
+
+Sol==>  
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--){
+	    int n;
+	    cin>>n;
+	    int arr[1001][1001];
+	    for(int i=0;i<=n;i++){
+	        
+	            arr[i][0]=0;
+	            arr[0][i]=0;
+	       
+	    }
+	    int m=-1;
+	    string s;
+	    cin>>s;
+	    for(int i=1;i<=n;i++){
+	        for(int j=1;j<=n;j++){
+	            if(s[i-1]==s[j-1]&& (i!=j)){
+	                arr[i][j]=1+arr[i-1][j-1];
+	                
+	            }else{
+	                arr[i][j]=max(arr[i-1][j],arr[i][j-1]);
+	            }
+	            
+	        }
+	    }
+	    cout<<arr[n][n]<<"\n";
+	}
+	return 0;
+}
+
