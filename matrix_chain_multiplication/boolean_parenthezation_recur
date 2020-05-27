@@ -1,0 +1,83 @@
+Q==> Given a boolean expression with following symbols.
+Symbols
+    'T' ---> true
+    'F' ---> false
+And following operators filled between symbols
+Operators
+    &   ---> boolean AND
+    |   ---> boolean OR
+    ^   ---> boolean XOR
+Count the number of ways we can parenthesize the expression
+so that the value of expression evaluates to true.
+For Example:
+The expression is "T | T & F ^ T", it evaluates true
+in 4 ways ((T|T)&(F^T)), (T|(T&(F^T))), (((T|T)&F)^T)
+and (T|((T&F)^T)).
+
+Practice : https://www.geeksforgeeks.org/boolean-parenthesization-problem-dp-37/
+
+#include <bits/stdc++.h>
+using namespace std;
+#define md 1003
+#define ll long long int
+
+
+int main() {
+#ifndef ONLINE_JUDGE
+	freopen("input1.txt", "r", stdin);
+	freopen("output1.txt", "w", stdout);
+
+#endif
+	int t;
+	cin >> t;
+	while (t--) {
+		int n1;
+		string gs;
+		cin >> n1 >> gs;
+
+		string exp = "";
+		string s = "";
+		for (int i = 0; i < n1; i++) {
+			if (gs[i] == 'T' || gs[i] == 'F') exp = exp + gs[i];
+			else s = s + gs[i];
+		}
+		int n = exp.size();
+		ll tr[n + 1][n + 1];
+		ll fa[n + 1][n + 1];
+		memset(tr, 0, sizeof(tr));
+		memset(fa, 0, sizeof(fa));
+		for (int i = 0; i < n; i++) {
+			tr[i][i] = exp[i] == 'T' ? 1 : 0;
+			fa[i][i] = exp[i] == 'F' ? 1 : 0;
+		}
+		for (int len = 1; len < n; len++) {
+			int i = 0;
+			int j = len;
+			while (i < n && j < n) {
+				tr[i][j] = fa[i][j] = 0;
+				for (int k = i  ; k < j; k++) {
+
+					ll ttr = (tr[i][k] + fa[i][k ]);
+					ll tfa = (tr[k + 1][j] + fa[k + 1][j]);
+					if (s[k] == '&') {
+						tr[i][j] += (tr[i][k ] * tr[k + 1][j]) % md;
+						fa[i][j] += ((ttr * tfa)  - (tr[i][k ] * tr[k + 1][j]) ) % md;
+					} else if (s[k] == '|') {
+						tr[i][j] += ((ttr * tfa) - (fa[i][k] * fa[k + 1][j]) ) % md;
+						fa[i][j] += (fa[i][k ] * fa[k + 1][j]) % md;
+					} else if (s[k] == '^') {
+						tr[i][j] +=  ((fa[i][k ] * tr[k + 1][j]) + (tr[i][k] * fa[k + 1][j]) ) % md;
+						fa[i][j] +=  ((fa[i][k ] * fa[k + 1][j])  + (tr[i][k] * tr[k + 1][j]) ) % md;
+					}
+
+				}
+				i++;
+				j++;
+			}
+		}
+		cout << tr[0][n - 1] % md << "\n";
+
+	}
+
+	return 0;
+}
