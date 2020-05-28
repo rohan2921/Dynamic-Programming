@@ -1,0 +1,68 @@
+Q==> Given two string X and Y. The task is to find the length
+of longest subsequence of string X which is substring in sequence Y.
+
+Practice : https://practice.geeksforgeeks.org/problems/find-length-of-longest-subsequence/0 
+
+sol == > 
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--){
+	    int n,m;
+	    string x,y;
+	    cin>>n>>m>>x>>y;
+	    int dp[n+1][m+1];
+	    memset(dp,0,sizeof(dp));
+	    int mx=-1;
+	    for(int i=1;i<=n;i++){
+	        for(int j=1;j<=m;j++) {
+	         if(x[i-1]==y[j-1]){
+	             dp[i][j]=1+dp[i-1][j-1];
+	             mx=max(mx,dp[i][j]);
+	         }else{
+	             dp[i][j]=dp[i-1][j];
+	         }   
+	        }
+	    }
+	    cout<<mx<<"\n";
+	}
+	return 0;
+} 
+
+Without dp  :
+
+#include <bits/stdc++.h>
+using namespace std;
+#define md 1003
+#define ll long long int
+
+int solve(string x, string y, int n, int m, int l) {
+
+	if (n == 0 || m == 0) return l ;
+	if (x[n - 1] == y[m - 1]) return  max(l + 1, max( solve(x, y, n, m - 1, 0), solve(x, y, n - 1, m - 1, l + 1) ));
+	return  max(l, max(solve(x, y, n - 1, m, l), solve(x, y, n, m - 1, 0)));
+}
+int main() {
+#ifndef ONLINE_JUDGE
+	freopen("input1.txt", "r", stdin);
+	freopen("output1.txt", "w", stdout);
+
+#endif
+	int t;
+	cin >> t;
+	while (t--) {
+		int n, m;
+		string x, y;
+		cin >> n >> m >> x >> y;
+
+
+		cout << solve(x, y, n, m, 0) << "\n";
+
+	}
+
+	return 0;
+}
